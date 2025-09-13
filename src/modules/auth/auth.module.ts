@@ -13,6 +13,10 @@ import { CommonModule } from '../../common/common.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Otp]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || 'your-secret-key',
+      signOptions: { expiresIn: '24h' }
+    }),
     PassportModule,
     EmailModule,
     CommonModule

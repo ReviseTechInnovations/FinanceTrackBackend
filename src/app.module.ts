@@ -12,10 +12,7 @@ import { dataSourceOptions } from './database/data-source';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { EmailModule } from './modules/email/email.module';
-import { DashboardModule } from './modules/dashboard/dashboard.module';
-import { ProjectModule } from './modules/project/project.module';
-import { AccountModule } from './modules/account/account.module';
-import { TransactionModule } from './modules/transaction/transaction.module';
+import { HealthModule } from './modules/health/health.module';
 
 // Common
 import { CommonModule } from './common/common.module';
@@ -78,10 +75,7 @@ import { CommonModule } from './common/common.module';
     AuthModule,
     UserModule,
     EmailModule,
-    DashboardModule,
-    ProjectModule,
-    AccountModule,
-    TransactionModule
+    HealthModule
   ]
 })
 export class AppModule {}

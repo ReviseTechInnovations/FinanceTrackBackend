@@ -5,7 +5,8 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User, UserStatus } from '../../database/entities/user.entity';
+import { User } from '../../database/entities/user.entity';
+import { UserStatus } from '../../common/enums';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UtilsService } from '../../common/services/utils.service';
@@ -20,8 +21,7 @@ export class UserService {
 
   async findById(id: number): Promise<User> {
     const user = await this.userRepository.findOne({
-      where: { id },
-      relations: ['accounts', 'projects']
+      where: { id }
     });
 
     if (!user) {
@@ -104,28 +104,14 @@ export class UserService {
   async getUserStats(userId: number): Promise<any> {
     const user = await this.findById(userId);
 
-    // Get basic stats
-    const totalAccounts = user.accounts?.length || 0;
-    const totalProjects = user.projects?.length || 0;
-
-    // Calculate account balances
-    const totalBalance =
-      user.accounts?.reduce((sum, account) => {
-        return (
-          sum +
-          (account.type === 'credit_card'
-            ? account.creditLimit - account.balance
-            : account.balance)
-        );
-      }, 0) || 0;
-
+    // Get basic stats - since accounts and projects entities were removed,
+    // we'll return basic user information instead
     return {
-      totalAccounts,
-      totalProjects,
-      totalBalance,
       memberSince: user.createdAt,
       lastLogin: user.lastLoginAt,
-      accountStatus: user.status
+      accountStatus: user.status,
+      emailVerified: user.isEmailVerified,
+      emailVerifiedAt: user.emailVerifiedAt
     };
   }
 

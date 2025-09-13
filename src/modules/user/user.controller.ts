@@ -21,7 +21,8 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { User, UserStatus } from '../../database/entities/user.entity';
+import { User } from '../../database/entities/user.entity';
+import { UserStatus } from '../../common/enums';
 
 @ApiTags('Users')
 @Controller('users')
@@ -82,12 +83,11 @@ export class UserController {
     schema: {
       type: 'object',
       properties: {
-        totalAccounts: { type: 'number', example: 3 },
-        totalProjects: { type: 'number', example: 5 },
-        totalBalance: { type: 'number', example: 18542.32 },
         memberSince: { type: 'string', example: '2023-01-01T00:00:00.000Z' },
         lastLogin: { type: 'string', example: '2023-08-12T10:30:00.000Z' },
-        accountStatus: { type: 'string', example: 'active' }
+        accountStatus: { type: 'string', example: 'active' },
+        emailVerified: { type: 'boolean', example: true },
+        emailVerifiedAt: { type: 'string', example: '2023-01-01T00:00:00.000Z' }
       }
     }
   })

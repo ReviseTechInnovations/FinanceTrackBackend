@@ -4,27 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
+  // OneToMany,
   Index
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { Account } from './account.entity';
-import { Project } from './project.entity';
-import { Transaction } from './transaction.entity';
-
-export enum UserStatus {
-  PENDING = 'pending',
-  ACTIVE = 'active',
-  SUSPENDED = 'suspended',
-  DELETED = 'deleted'
-}
-
-export enum UserRole {
-  USER = 'user',
-  ADMIN = 'admin',
-  SUPER_ADMIN = 'super_admin'
-}
+import { UserStatus, UserRole } from '../../common/enums';
 
 @Entity('users')
 export class User {
@@ -113,15 +98,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Relations
-  @OneToMany(() => Account, (account) => account.user)
-  accounts: Account[];
-
-  @OneToMany(() => Project, (project) => project.user)
-  projects: Project[];
-
-  @OneToMany(() => Transaction, (transaction) => transaction.user)
-  transactions: Transaction[];
+  // Relations - removed since entities were deleted
 
   // Virtual properties
   get fullName(): string {

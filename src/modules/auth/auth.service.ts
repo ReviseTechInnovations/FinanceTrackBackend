@@ -9,8 +9,9 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { User, UserStatus } from '../../database/entities/user.entity';
-import { Otp, OtpType, OtpStatus } from '../../database/entities/otp.entity';
+import { User } from '../../database/entities/user.entity';
+import { UserStatus, OtpType, OtpStatus } from '../../common/enums';
+import { Otp } from '../../database/entities/otp.entity';
 import { UtilsService } from '../../common/services/utils.service';
 import { RedisService } from '../../common/services/redis.service';
 import { EmailService } from '../email/email.service';
@@ -100,7 +101,7 @@ export class AuthService {
 
   async verifyOtp(
     verifyOtpDto: VerifyOtpDto,
-    ipAddress?: string
+    _ipAddress?: string
   ): Promise<VerifyOtpResponseDto> {
     const { email, otp } = verifyOtpDto;
 
@@ -234,7 +235,7 @@ export class AuthService {
   async login(
     loginDto: LoginDto,
     ipAddress?: string,
-    userAgent?: string
+    _userAgent?: string
   ): Promise<AuthResponseDto> {
     const { email, password } = loginDto;
 
@@ -301,7 +302,7 @@ export class AuthService {
     }
   }
 
-  async logout(userId: number): Promise<{ message: string }> {
+  async logout(_userId: number): Promise<{ message: string }> {
     // In a real application, you might want to blacklist the token
     // For now, we'll just return a success message
     return { message: 'Logged out successfully' };

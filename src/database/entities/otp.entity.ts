@@ -8,20 +8,7 @@ import {
   Index
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from './user.entity';
-
-export enum OtpType {
-  EMAIL_VERIFICATION = 'email_verification',
-  PASSWORD_RESET = 'password_reset',
-  LOGIN_VERIFICATION = 'login_verification'
-}
-
-export enum OtpStatus {
-  PENDING = 'pending',
-  VERIFIED = 'verified',
-  EXPIRED = 'expired',
-  USED = 'used'
-}
+import { OtpType, OtpStatus } from '../../common/enums';
 
 @Entity('otps')
 export class Otp {
@@ -82,20 +69,20 @@ export class Otp {
   createdAt: Date;
 
   // Relations
-  @ManyToOne(() => User, { nullable: true })
+  @ManyToOne('User', { nullable: true })
   @JoinColumn({ name: 'userId' })
-  user: User;
+  user: any;
 
   // Methods
   isExpired(): boolean {
     return new Date() > this.expiresAt;
   }
 
-  isMaxAttemptsReached(maxAttempts: number = 3): boolean {
+  isMaxAttemptsReached(maxAttempts = 3): boolean {
     return this.attempts >= maxAttempts;
   }
 
-  canResend(minIntervalMinutes: number = 1): boolean {
+  canResend(minIntervalMinutes = 1): boolean {
     const now = new Date();
     const timeDiff = now.getTime() - this.createdAt.getTime();
     const minutesDiff = timeDiff / (1000 * 60);

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import {
   IsEmail,
   IsString,
@@ -56,6 +57,7 @@ export class RegisterDto {
   @IsOptional()
   @IsString()
   @MaxLength(20)
+    
   postalCode?: string;
 
   @ApiProperty({ example: '1990-01-01', required: false })

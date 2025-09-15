@@ -29,7 +29,7 @@ import { UserStatus } from '../../common/enums';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Get('profile')
   @ApiOperation({ summary: 'Get current user profile' })
@@ -134,7 +134,7 @@ export class UserController {
 
   // Admin endpoints
   @Get()
-  @ApiOperation({ summary: 'Get all users (Admin only)' })
+  @ApiOperation({ summary: 'Get all users (Admin only)' }) 
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
   @ApiQuery({ name: 'search', required: false, type: String, example: 'john' })
@@ -152,8 +152,8 @@ export class UserController {
     }
   })
   async getAllUsers(
-    @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
-    @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
+    @Query('page', new ParseIntPipe({ optional: true })) page = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit = 10,
     @Query('search') search?: string
   ): Promise<{ users: User[]; total: number; page: number; limit: number }> {
     return this.userService.getAllUsers(page, limit, search);
